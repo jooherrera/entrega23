@@ -1,45 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AdonisJS - A fully featured web framework for Node.js</title>
-  @entryPointStyles('app')
-  @entryPointScripts('app')
-</head>
-<body>
+@layout('layouts/main')
+@set('title', 'Login')
 
-  <main>
-    <div>
-      <h1> Login </h1>
+@section('styles')
 
-      <form method="POST" action="{{ route('AuthController.login') }}">
-        <div>
-          <label for="uid"> Email </label>
-          <br>
-          <input type="text" name="uid" placeholder="Enter email address">
-          <p>
-            @if(flashMessages.has('auth.errors.uid'))
-              {{ flashMessages.get('auth.errors.uid') }}
-            @end
-          </p>
-        </div>
+@end
 
-        <div>
-          <label for="password"> Password </label>
-          <br>
-          <input type="password" name="password" placeholder="Enter account password">
-          <p>
-            @if(flashMessages.has('auth.errors.password'))
-              {{ flashMessages.get('auth.errors.password') }}
-            @end
-          </p>
-        </div>
 
-        <button type="submit"> Login </button>
-      </form>
-    </div>
-  </main>
+@section('body')
 
-</body>
-</html>
+<main class="container text-center">
+  <div>
+    <h1> Login </h1>  
+   <form method="POST" action="{{ route('AuthController.login') }}">
+      <div>
+        <label for="username"> Username </label>
+        <br>
+        <input type="text" name="username" placeholder="Enter username">
+        <p>
+          @if(flashMessages.has('auth.errors.uid'))
+            {{ flashMessages.get('auth.errors.uid') }}
+          @end
+        </p>
+      </div>
+      <div>
+        <label for="password"> Password </label>
+        <br>
+        <input type="password" name="password" placeholder="Enter account password">
+        <p>
+          @if(flashMessages.has('auth.errors.password'))
+            {{ flashMessages.get('auth.errors.password') }}
+          @end
+        </p>
+      </div>
+      <button type="submit"> Login </button>
+    </form>  
+    <hr>
+    <button type="button" onclick="register()" > Sing up </button>
+  </div>
+</main>
+
+<script>
+  const register = () => {
+    window.location.href = "/register"
+}
+</script>
+
+@end

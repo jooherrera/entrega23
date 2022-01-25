@@ -28,4 +28,7 @@ Route.get("/", async ({ view }) => {
   return view.render("welcome");
 }).middleware("auth");
 
-Route.get("/otro", "AuthController.create");
+Route.get("/register", "UsersController.showRegister");
+Route.post("/register", "UsersController.register");
+
+Route.get("/error", "SystemsController.showError");

@@ -1,0 +1,40 @@
+@layout('layouts/main')
+@set('title', 'Register')
+
+
+@section('body')
+<main class="container text-center">
+  <section class="">
+    <h2>Register</h2>
+    <form method="POST" action="{{ route('UsersController.register') }}">
+      <div>
+        <label for="username"> Username </label>
+        <br>
+        <input type="text" name="username" placeholder="Enter username" required>
+      </div>
+      <div>
+        <label for="password"> Password </label>
+        <br>
+        <input type="password" name="password" placeholder="Enter account password" >
+
+      </div>
+      <div>
+        <label for="email"> Email </label>
+        <br>
+        <input type="email" name="email" placeholder="Enter email" required>
+
+      </div>
+      <hr>
+      <button type="submit"> Register </button>
+      <hr>
+      <button type="button" onclick="singin()"> Sing In </button>
+    </form>  
+  </section>
+</main>
+
+<script>
+  const singin = () => {
+    window.location.href = "/login"
+  }
+</script>
+@end

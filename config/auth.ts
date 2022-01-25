@@ -33,7 +33,7 @@ const authConfig: AuthConfig = {
       driver: "session",
       provider: {
         driver: "mongo",
-        uids: ["email"],
+        uids: ["username"],
         model: () => import("App/Models/User"),
       },
     },

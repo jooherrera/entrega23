@@ -11,6 +11,7 @@ import type {
  */
 export type User = {
   id: string;
+  username: string;
   email: string;
   password: string;
   rememberMeToken: string | null;

@@ -3,11 +3,17 @@ import User from "../../Models/User";
 
 export default class AuthController {
   public async showLogin({ view }) {
-    return view.render("login");
+    return view.render("login", {
+      btn: "ok",
+    });
   }
 
   public async login({ request, response, auth }) {
-    await auth.attempt(request.input("uid"), request.input("password"), true);
+    await auth.attempt(
+      request.input("username"),
+      request.input("password"),
+      true
+    );
     response.redirect("/");
   }
 

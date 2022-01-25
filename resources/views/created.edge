@@ -1,0 +1,14 @@
+@layout('layouts/main')
+@set('title', 'Usuario creado')
+
+
+
+@section('body')
+<h2>Usuario creado exitosamente</h2>
+<button onclick="logear()">Continuar</button>
+<script>
+  const logear = () => {
+    window.location = "/"
+  }
+</script>
+@end

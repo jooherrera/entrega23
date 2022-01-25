@@ -2,25 +2,31 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import User from "App/Models/User";
 
 export default class UsersController {
-  public async index({}: HttpContextContract) {
-    // Create cat model
+  public async showRegister({ view }) {
+    return view.render("register");
+  }
 
-    const user = new User({
-      username: "jose",
-      password: "123",
-      email: "saddas.com",
-    });
+  public async register({ request, view }: HttpContextContract) {
+    const { username, password, email } = request.body();
 
-    // Save cat to DB
+    if (!username || !password || !email) {
+      return view.render("error", {
+        error: "Faltan datos",
+      });
+    }
 
-    await user.save();
+    const emailExist = await User.exists({ email: email });
+    const userExist = await User.exists({ username: username });
 
-    // Return list of all saved cats
-    const users = await User.find();
-
-    // Close the connection
-
-    // Return all the cats (including the new one)
-    return users;
+    if (emailExist || userExist) {
+      return view.render("error", {
+        emailExist,
+        userExist,
+      });
+    } else {
+      const newUser = new User({ username, password, email });
+      await newUser.save();
+      return view.render("created");
+    }
   }
 }

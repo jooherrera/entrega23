@@ -3,16 +3,21 @@ import Hash from "@ioc:Adonis/Core/Hash";
 
 type User = {
   id: string;
+  username: string;
   email: string;
   password: string;
   rememberMeToken: string | null;
 };
 
-const UserSchema = new mongoose.Schema<User>({
-  email: String,
-  password: String,
-  rememberMeToken: String,
-});
+const UserSchema = new mongoose.Schema<User>(
+  {
+    username: String,
+    email: String,
+    password: String,
+    rememberMeToken: String,
+  },
+  { timestamps: true, versionKey: false }
+);
 
 UserSchema.pre("save", async function () {
   if (this.password && this.isModified("password")) {
