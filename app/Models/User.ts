@@ -1,12 +1,23 @@
-import { Schema, model } from "@ioc:Mongoose";
+import mongoose from "mongoose";
+import Hash from "@ioc:Adonis/Core/Hash";
 
-const userSchema = new Schema(
-  {
-    username: { type: String, required: true },
-    password: { type: String, required: true },
-    email: { type: String, required: true },
-  },
-  { timestamps: true, versionKey: false }
-);
+type User = {
+  id: string;
+  email: string;
+  password: string;
+  rememberMeToken: string | null;
+};
 
-export default model("User", userSchema);
+const UserSchema = new mongoose.Schema<User>({
+  email: String,
+  password: String,
+  rememberMeToken: String,
+});
+
+UserSchema.pre("save", async function () {
+  if (this.password && this.isModified("password")) {
+    this.password = await Hash.make(this.password);
+  }
+});
+
+export default mongoose.model<User>("User", UserSchema);

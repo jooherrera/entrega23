@@ -15,7 +15,11 @@
   },
   "preloads": [
     "./start/routes",
-    "./start/kernel"
+    "./start/kernel",
+    {
+      "file": "./start/mongoose",
+      "environment": ["web", "repl"]
+    }
   ],
   "providers": [
     "./providers/AppProvider",
@@ -24,7 +28,7 @@
     "@adonisjs/view",
     "@adonisjs/shield",
     "@adonisjs/lucid",
-    "./providers/MongoProvider"
+    "@adonisjs/auth"
   ],
   "metaFiles": [
     {
@@ -36,7 +40,5 @@
       "reloadServer": false
     }
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ]
+  "aceProviders": ["@adonisjs/repl"]
 }

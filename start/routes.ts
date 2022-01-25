@@ -20,8 +20,12 @@
 
 import Route from "@ioc:Adonis/Core/Route";
 
+Route.get("login", "AuthController.showLogin");
+Route.post("login", "AuthController.login");
+Route.post("logout", "AuthController.logout");
+
 Route.get("/", async ({ view }) => {
   return view.render("welcome");
-});
+}).middleware("auth");
 
-Route.get("/users", "UsersController.index");
+Route.get("/otro", "AuthController.create");
