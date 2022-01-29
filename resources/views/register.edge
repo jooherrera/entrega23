@@ -6,7 +6,7 @@
 <main class="container text-center">
   <section class="">
     <h2>Register</h2>
-    <form method="POST" action="{{ route('UsersController.register') }}">
+    <form method="POST" action="{{ route('AuthController.register') }}">
       <div>
         <label for="username"> Username </label>
         <br>
@@ -15,26 +15,46 @@
       <div>
         <label for="password"> Password </label>
         <br>
-        <input type="password" name="password" placeholder="Enter account password" >
+        <input type="password" name="password" placeholder="Enter account password" required >
 
       </div>
       <div>
         <label for="email"> Email </label>
         <br>
-        <input type="email" name="email" placeholder="Enter email" required>
+        <input type="email" name="email" placeholder="Enter email" >
 
       </div>
-      <hr>
-      <button type="submit"> Register </button>
-      <hr>
-      <button type="button" onclick="singin()"> Sing In </button>
-    </form>  
+      <br>
+      <button class="mb-3" type="submit"> Register </button>
+
+      @if(flashMessages.has('error'))
+      <div class="alert alert-danger alert-dismissible fade-in show" role="alert">
+        {{ flashMessages.get('error') }}
+     
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+    </div>
+  </form>  
+  @end
+  @if(flashMessages.has('msg'))
+      <div class="alert alert-success alert-dismissible fade-in show" role="alert">
+        {{ flashMessages.get('msg') }}
+        <a href="#" onclick="singin()" class="alert-link">Go to Login</a>
+        <button type="button" onclick="singin()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+    </div>
+    @else
+    <hr>
+    <button type="button" onclick="singin()"> Sing In </button>
+
+  @end
   </section>
 </main>
 
-<script>
-  const singin = () => {
-    window.location.href = "/login"
-  }
-</script>
+@end
+
+@section('script')
+  <script>
+    const singin = () => {
+      window.location.href = "/login"
+    }
+  </script>
 @end

@@ -24,4 +24,5 @@ export default Env.rules({
   DRIVE_DISK: Env.schema.enum(["local"] as const),
   NODE_ENV: Env.schema.enum(["development", "production", "testing"] as const),
   MONGO_URI_DEV: Env.schema.string(),
+  MONGO_URI: Env.schema.string(),
 });

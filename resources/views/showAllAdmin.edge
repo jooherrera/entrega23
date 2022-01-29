@@ -1,0 +1,64 @@
+@layout('layouts/main')
+@set('title','All products')
+
+@section('navbar')
+  @include('partials/navbar')
+@end
+
+@section('body')
+<div class="container text-center">
+  <button onclick="addProduct()"> Add product </button> 
+</div>
+<div class="container mt-3">
+  @each(product in products)
+  <div class="card mb-3" >
+    <div class="row g-0" >
+      <div class="col-md-4"  style="width: 7rem; ">
+        <img src={{product.image}} class="img-thumbnail rounded-start" alt="imagen del producto" >
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text"><small class="text-muted">${{product.price}}</small></p>
+          <p class="card-text"><small class="text-muted">STOCK:{{product.stock}}</small></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <span class="badge bg-warning text-dark btn btnEdit" id={{product._id}} >Edit</span>
+        <br>
+        <span class="badge bg-danger btn btnDelete" id={{product._id}}>Delete</span>
+
+      </div>
+    </div>
+  </div>
+  @end
+</div>
+@end
+
+@section('script')
+<script>
+  const addProduct = () => {
+    window.location = "/api/v1/product/create"
+  }
+
+  const btns = document.querySelectorAll(".btnEdit")
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.location = `/api/v1/product/${btn.id}/edit`
+    })
+  })
+
+  const btnsDelete = document.querySelectorAll(".btnDelete")
+  btnsDelete.forEach(btn => {
+    btn.addEventListener('click', async() => {
+      console.log(btn.id)
+      const url = "{{{url}}}" + btn.id    
+      const response = await fetch(url,{method: "DELETE"})
+
+      window.location.reload()
+    })
+  })
+
+
+</script>
+@end

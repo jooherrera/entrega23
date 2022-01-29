@@ -1,5 +1,5 @@
 // import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from "../../Models/User";
+import User from "App/Models/User";
 
 export default class AuthController {
   public async showLogin({ view }) {
@@ -8,32 +8,45 @@ export default class AuthController {
     });
   }
 
-  public async login({ request, response, auth }) {
+  public async login({ request, response, auth, session }) {
     await auth.attempt(
       request.input("username"),
       request.input("password"),
       true
     );
+    session.put;
     response.redirect("/");
   }
 
   public async logout({ response, auth }) {
     await auth.logout();
-    response.redirect("/login");
+    response.redirect("/");
   }
 
-  public async create() {
-    const newUser = new User({
-      email: "joo",
-      password: "joo",
-    });
+  public async showRegister({ view }) {
+    return view.render("register");
+  }
 
-    await newUser.save();
-    const Users = await User.find();
+  public async register({ request, response, session }) {
+    const { username, password, email } = request.body();
 
-    // Close the connection
+    if (!username || !password || !email) {
+      session.flash({ error: "Faltan Datos" });
+      return response.redirect().back();
+    }
 
-    // Return all the cats (including the new one)
-    return Users;
+    const emailExist = await User.exists({ email: email });
+    const userExist = await User.exists({ username: username });
+
+    if (emailExist || userExist) {
+      session.flash({ error: "Usuario o Mail ya existen. " });
+      return response.redirect().back();
+    } else {
+      const newUser = new User({ username, password, email });
+      await newUser.save();
+      session.flash({ msg: "Usuario creado" });
+      return response.redirect().back();
+      // return view.render("created");
+    }
   }
 }

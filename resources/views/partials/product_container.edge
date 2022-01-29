@@ -1,0 +1,36 @@
+<div class="card-group container">
+  {{--  <div class="col" style="width: 14rem;">  --}}
+
+<div class="row  " >
+  @each(product in products)
+
+  <div class="col" >
+    <div class="card h-100"  >
+ 
+      <img src={{product.image}} class="card-img-top product h-100 w-100"   alt="Imagen del producto" id= {{product._id}}>
+      <div class="card-body" >
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text">{{product.description}}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">${{product.price}}</small>
+      </div>
+    </div>
+  </div>
+  @end
+</div>
+</div>
+
+@section('script')
+  <script>
+    const products = document.querySelectorAll('.product')
+
+    products.forEach(product => {
+      product.addEventListener('click', () => {
+        window.location = `product/${product.id}`
+      } )
+    })
+    
+  </script>
+
+@end

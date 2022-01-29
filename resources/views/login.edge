@@ -1,13 +1,8 @@
 @layout('layouts/main')
 @set('title', 'Login')
 
-@section('styles')
-
-@end
-
 
 @section('body')
-
 <main class="container text-center">
   <div>
     <h1> Login </h1>  
@@ -16,33 +11,37 @@
         <label for="username"> Username </label>
         <br>
         <input type="text" name="username" placeholder="Enter username">
-        <p>
-          @if(flashMessages.has('auth.errors.uid'))
-            {{ flashMessages.get('auth.errors.uid') }}
-          @end
-        </p>
+        @if(flashMessages.has('auth.errors.uid'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ flashMessages.get('auth.errors.uid') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+      </div>
+    @end
       </div>
       <div>
         <label for="password"> Password </label>
         <br>
         <input type="password" name="password" placeholder="Enter account password">
-        <p>
-          @if(flashMessages.has('auth.errors.password'))
-            {{ flashMessages.get('auth.errors.password') }}
-          @end
-        </p>
+        @if(flashMessages.has('auth.errors.password'))
+        <div class="alert alert-danger alert-dismissible fade-in show" role="alert">
+          {{ flashMessages.get('auth.errors.password') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
       </div>
-      <button type="submit"> Login </button>
+    @end
+      </div>
+      <button class="mt-3" type="submit"> Login </button>
     </form>  
     <hr>
     <button type="button" onclick="register()" > Sing up </button>
   </div>
 </main>
 
-<script>
-  const register = () => {
-    window.location.href = "/register"
-}
-</script>
+@end
 
+@section('script')
+  <script>
+    const register = () => {
+      window.location.href = "/register"
+  }
+  </script>
 @end

@@ -1,0 +1,131 @@
+@layout('layouts/main')
+@set('title', 'Edit Product')
+
+@section('navbar')
+  @include('partials/navbar')
+@end
+
+@section('body')
+<hr>
+<div class="container text-center">
+  <h2>Update product</h2>
+</div>
+
+
+  <form method="POST" action="" id="f" enctype="multipart/form-data" class=" container needs-validation" novalidate >
+        <div class="mb-3 row">
+      <label for="name" class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" name="name" placeholder="Product name" >
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="description" class="col-sm-2 col-form-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="description" name="description" placeholder="Product description" >
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="category" class="col-sm-2 col-form-label">Category</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="category" name="category" placeholder="Product category" >
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="image" class="col-sm-2 col-form-label">Image File</label>
+      <div class="col-sm-10">
+        <input class="form-control" type="file" id="image" name="image" >
+        @if(flashMessages.has('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ flashMessages.get('error') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+          </div>
+        @end
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="price" class="col-sm-2 col-form-label">Price</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="price"  name="price" placeholder="$0.00" >
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="stock" name="stock" placeholder="0" >
+      </div>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="button" onclick="update()">Update Product</button>
+    </div>
+  </form>
+ 
+   <div class="alert alert-success alert-dismissible fade show mt-3" id="msg" role="alert" style="display: none">
+    <span id="msgSpan"> </span> 
+</div>
+
+@end
+
+@section('script')
+<script>
+
+  const update = async () => {
+    let element = document.getElementById('msg')
+    element.style.display = "none";
+    let span = document.getElementById('msgSpan')
+    const formElement = document.getElementById('f')
+    const url = "{{{url}}}"    
+    const response = await fetch(url,{
+      method: "PATCH",
+      body: new FormData(formElement)
+    })
+    if(response.status === 202 || response.status === 200){
+      if (element.style.display === "none") {
+        element.style.display = "block";
+ 
+      } else {
+        element.style.display = "none";
+      }
+    }
+    if(response.status === 200){
+      span.innerHTML = "No se actualizo nada porque no envio informacion"
+    }
+    if(response.status === 202){
+      span.innerHTML = "Producto actualizado"
+    }
+    
+
+  }
+
+
+
+//   const update = async () => {
+  
+
+
+//   (function () {
+//   'use strict'
+
+//   // Fetch all the forms we want to apply custom Bootstrap validation styles to
+//   var forms = document.querySelectorAll('.needs-validation')
+
+//   // Loop over them and prevent submission
+//   Array.prototype.slice.call(forms)
+//     .forEach(function (form) {
+//       form.addEventListener('submit', function (event) {
+//         if (!form.checkValidity()) {
+//           event.preventDefault()
+//           event.stopPropagation()
+          
+//         }
+
+//         form.classList.add('was-validated')
+//       }, false)
+//     })
+// })()
+
+
+
+
+</script>
+@end

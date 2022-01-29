@@ -8,10 +8,17 @@
 |
 */
 
+import Env from "@ioc:Adonis/Core/Env";
 import mongoose from "mongoose";
-mongoose.connect(
-  "mongodb://test:test@192.168.0.71:27018/eshop?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false",
-  () => {
-    return { useNewUrlParser: true, useUnifiedTopology: true };
-  }
-);
+
+let URL = "";
+
+if (Env.get("NODE_ENV") === "development") {
+  URL = Env.get("MONGO_URI_DEV");
+} else {
+  URL = Env.get("MONGO_URI");
+}
+
+mongoose.connect(URL, () => {
+  return { useNewUrlParser: true, useUnifiedTopology: true };
+});

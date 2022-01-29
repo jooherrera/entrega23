@@ -1,0 +1,49 @@
+<div class="position-relative  ">
+  <img src={{auth.user.avatar}} alt="avatar" style="max-height: 7rem; " >
+  <i class="bi bi-pencil-fill btn text-primary" id="avatar"   data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" id="formAvatar" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="image" class="form-label">Imagen para el avatar</label>
+          <input class="form-control" type="file" name="image" id="image">
+        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="changeAvatar()">Cambiar Avatar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+@section('script')
+<script>
+  
+  const changeAvatar = async() => {
+    const id = "{{{auth.user._id}}}"
+   const formElement = document.getElementById('formAvatar')
+    const url = `/user/${id}`   
+     await fetch(url,{
+       method: "PUT",
+      body: new FormData(formElement)
+     })
+     window.location.reload()
+  }
+</script>
+
+@end

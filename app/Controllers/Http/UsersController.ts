@@ -1,32 +1,54 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import User from "App/Models/User";
+
+import UserProvider from "../../../providers/UserProvider";
 
 export default class UsersController {
-  public async showRegister({ view }) {
-    return view.render("register");
+  public async cart({ view }) {
+    return view.render("cart");
   }
 
-  public async register({ request, view }: HttpContextContract) {
-    const { username, password, email } = request.body();
+  public async edit({ view, params }: HttpContextContract) {
+    const { id } = params;
+    return view.render("updateUser", { url: `/user/${id}` });
+  }
 
-    if (!username || !password || !email) {
-      return view.render("error", {
-        error: "Faltan datos",
+  public async update({ request, response, params }) {
+    const { id } = params;
+    console.log(params.id);
+    let data = {};
+    let info = request.body();
+
+    Object.keys(info).forEach((key) => {
+      if (info[key] === null) {
+        delete info[key];
+      }
+    });
+
+    const image = request.file("image", {
+      size: "1mb",
+      extnames: ["jpg", "png", "webp"],
+    });
+
+    if (image) {
+      // await image.move(Application.tmpPath("uploads"));
+      await image.moveToDisk("../../public/avatar", {
+        name: `${id}.${image.extname}`,
       });
+
+      data = {
+        avatar: `/avatar/${image.fileName}`,
+      };
+
+      await UserProvider.updateAvatar(id, data);
+      return response.status(202);
     }
 
-    const emailExist = await User.exists({ email: email });
-    const userExist = await User.exists({ username: username });
+    data = {
+      ...info,
+    };
 
-    if (emailExist || userExist) {
-      return view.render("error", {
-        emailExist,
-        userExist,
-      });
-    } else {
-      const newUser = new User({ username, password, email });
-      await newUser.save();
-      return view.render("created");
-    }
+    await UserProvider.updateInfo(id, data);
+
+    // return response.status(202);
   }
 }

@@ -11,6 +11,7 @@ import type {
  */
 export type User = {
   id: string;
+  isAdmin: boolean;
   username: string;
   email: string;
   password: string;
